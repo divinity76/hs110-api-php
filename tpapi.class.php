@@ -29,8 +29,7 @@ class tpapi {
 			if (! $sock) {
 				throw new \RuntimeException ( 'failed to create socket!' );
 			}
-			$port = 9999;
-			if (! socket_connect ( $sock, $this->ip, $port )) {
+			if (! socket_connect ( $sock, $this->ip, $this->port )) {
 				throw new \RuntimeException ( 'failed to connect!' );
 			}
 			$commandEnc = ($encryptInput ? self::encrypt ( $command ) : $command);
@@ -90,8 +89,13 @@ class tpapi {
 		return $this->execRaw ( $commands [$command], true );
 	}
 	public $ip;
-	function __construct(string $ip) {
-		// TODO: FILTER_VALIDATE__IP
+	public $port;
+	function __construct(string $ip, int $port = 9999) {
+		if ($port < 0 || $port > 0xFFFF) {
+			throw new InvalidArgumentException ( 'port must be between 0-65535, ps, the default port is 9999' );
+		}
+		$this->port = $port;
+		// TODO: FILTER_VALIDATE__IP?
 		$this->ip = $ip;
 	}
 }
