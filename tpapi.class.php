@@ -69,24 +69,28 @@ class tpapi {
 			socket_close ( $sock );
 		}
 	}
+	public $commands = array (
+			'info' => '{"system":{"get_sysinfo":null}}',
+			'reboot' => '{"system":{"reboot":{"delay":1}}}',
+			'reset' => '{"system":{"reset":{"delay":1}}}',
+			'on' => '{"system":{"set_relay_state":{"state":1}}}',
+			'off' => '{"system":{"set_relay_state":{"state":0}}}',
+			'realtime' => '{"emeter":{"get_realtime":{}}}',
+			'now' => '{"emeter":{"get_realtime":{}}}',
+			'month' => '{"emeter":{"get_daystat":{"month":01,"year":2018}}}',
+			'lastmonth' => '{"emeter":{"get_daystat":{"month":0,"year":2018}}}',
+			'year' => '{"emeter":{""get_monthstat":{"year":2018}}}' 
+	);
 	public function execCommand(string $command): string {
 		// https://github.com/softScheck/tplink-smartplug/blob/master/tplink-smarthome-commands.txt
-		$commands = array ();
-		$commands ['info'] = '{"system":{"get_sysinfo":null}}';
-		$commands ['reboot'] = '{"system":{"reboot":{"delay":1}}}';
-		$commands ['reset'] = '{"system":{"reset":{"delay":1}}}';
-		$commands ['on'] = '{"system":{"set_relay_state":{"state":1}}}';
-		$commands ['off'] = '{"system":{"set_relay_state":{"state":0}}}';
-		$commands ['realtime'] = '{"emeter":{"get_realtime":{}}}';
-		$commands ['now'] = $commands ['realtime'];
-		$commands ['month'] = '{"emeter":{"get_daystat":{"month":' . (date ( "m" )) . ',"year":' . (date ( "Y" )) . '}}}';
-		$commands ['lastmonth'] = (date ( "m" ) === '1' ? '{"emeter":{"get_daystat":{"month":12,"year":' . (date ( "Y" ) - 1) . '}}}' : '{"emeter":{"get_daystat":{"month":' . (date ( "m" ) - 1) . ',"year":' . (date ( "Y" )) . '}}}');
-		$commands ['year'] = '{"emeter":{""get_monthstat":{"year":' . (date ( "Y" )) . '}}}';
+		$this->commands ['month'] = '{"emeter":{"get_daystat":{"month":' . (date ( "m" )) . ',"year":' . (date ( "Y" )) . '}}}';
+		$this->commands ['lastmonth'] = (date ( "m" ) === '1' ? '{"emeter":{"get_daystat":{"month":12,"year":' . (date ( "Y" ) - 1) . '}}}' : '{"emeter":{"get_daystat":{"month":' . (date ( "m" ) - 1) . ',"year":' . (date ( "Y" )) . '}}}');
+		$this->commands ['year'] = '{"emeter":{""get_monthstat":{"year":' . (date ( "Y" )) . '}}}';
 		$command = strtolower ( $command );
-		if (! in_array ( $command, array_keys ( $commands ), true )) {
-			throw new \InvalidArgumentException ( 'unknown command! supported commands: ' . implode ( ' - ', array_keys ( $commands ) ) );
+		if (! in_array ( $command, array_keys ( $this->commands ), true )) {
+			throw new \InvalidArgumentException ( 'unknown command! supported commands: ' . implode ( ' - ', array_keys ( $this->commands ) ) );
 		}
-		return $this->execRaw ( $commands [$command], true );
+		return $this->execRaw ( $this->commands [$command], true );
 	}
 	public $ip;
 	public $port;
@@ -99,3 +103,4 @@ class tpapi {
 		$this->ip = $ip;
 	}
 }
+
