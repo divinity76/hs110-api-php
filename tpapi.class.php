@@ -29,11 +29,11 @@ class tpapi {
 			if (! $sock) {
 				throw new \RuntimeException ( 'failed to create socket!' );
 			}
-			socket_set_option ( $socket, SOL_SOCKET, SO_RCVTIMEO, array (
+			socket_set_option ( $sock, SOL_SOCKET, SO_RCVTIMEO, array (
 					'sec' => 4,
 					'usec' => 0 
 			) );
-			socket_set_option ( $socket, SOL_SOCKET, SO_SNDTIMEO, array (
+			socket_set_option ( $sock, SOL_SOCKET, SO_SNDTIMEO, array (
 					'sec' => 4,
 					'usec' => 0 
 			) );
