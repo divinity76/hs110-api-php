@@ -27,12 +27,16 @@ $ip = $ip [0];
 $tp = new tpapi ( $ip, $port );
 array_map ( 'readline_add_history', array_keys ( $tp->commands ) );
 echo "for a list of built-in command aliases, press the up key repeatedly. for a comprehensive list, see https://github.com/softScheck/tplink-smartplug/blob/master/tplink-smarthome-commands.txt \n";
+$lastLine = NULL;
 while ( is_string ( ($cmd = readline ( "cmd: " )) ) ) {
 	if (empty ( ($cmd = trim ( $cmd )) )) {
 		// echo "\n";
 		continue;
 	}
-	readline_add_history ( $cmd );
+	if ($cmd !== $lastLine) {
+		$lastLine = $cmd;
+		readline_add_history ( $cmd );
+	}
 	try {
 		$ret = $tp->execCommand ( $cmd );
 		echo "(command mode)\n", $ret, "\n";
@@ -41,3 +45,4 @@ while ( is_string ( ($cmd = readline ( "cmd: " )) ) ) {
 		echo "(raw mode)\n", $ret, "\n";
 	}
 }
+
