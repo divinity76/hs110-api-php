@@ -2,8 +2,11 @@
 <?php
 declare(strict_types = 1);
 require_once ('tpapi.class.php');
-$ip = readline ( "host[:port=9999]: " );
-$ip = explode ( ":", $ip, 2 );
+$ip = $argv [1] ?? NULL;
+if (empty ( $ip )) {
+	$ip = readline ( "host[:port=9999]: " );
+	$ip = explode ( ":", $ip, 2 );
+}
 if (count ( $ip ) === 2) {
 	$port = $ip [1];
 	if (false === ($port = filter_var ( $port, FILTER_VALIDATE_INT, array (
