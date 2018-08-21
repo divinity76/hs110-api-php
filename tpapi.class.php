@@ -87,7 +87,7 @@ class tpapi {
 			'now' => '{"emeter":{"get_realtime":{}}}',
 			'month' => '{"emeter":{"get_daystat":{"month":01,"year":2018}}}',
 			'lastmonth' => '{"emeter":{"get_daystat":{"month":0,"year":2018}}}',
-			'year' => '{"emeter":{""get_monthstat":{"year":2018}}}' 
+			'year' => '{"emeter":{"get_monthstat":{"year":2018}}}' 
 	);
 	public function execCommand(string $command): string {
 		// https://github.com/softScheck/tplink-smartplug/blob/master/tplink-smarthome-commands.txt
