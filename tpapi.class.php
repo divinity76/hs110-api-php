@@ -93,7 +93,7 @@ class tpapi {
 		// https://github.com/softScheck/tplink-smartplug/blob/master/tplink-smarthome-commands.txt
 		$this->commands ['month'] = '{"emeter":{"get_daystat":{"month":' . (date ( "m" )) . ',"year":' . (date ( "Y" )) . '}}}';
 		$this->commands ['lastmonth'] = (date ( "m" ) === '1' ? '{"emeter":{"get_daystat":{"month":12,"year":' . (date ( "Y" ) - 1) . '}}}' : '{"emeter":{"get_daystat":{"month":' . (date ( "m" ) - 1) . ',"year":' . (date ( "Y" )) . '}}}');
-		$this->commands ['year'] = '{"emeter":{""get_monthstat":{"year":' . (date ( "Y" )) . '}}}';
+		$this->commands ['year'] = '{"emeter":{"get_monthstat":{"year":' . (date ( "Y" )) . '}}}';
 		$command = strtolower ( $command );
 		if (! in_array ( $command, array_keys ( $this->commands ), true )) {
 			throw new \InvalidArgumentException ( 'unknown command! supported commands: ' . implode ( ' - ', array_keys ( $this->commands ) ) );
